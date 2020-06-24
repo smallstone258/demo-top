@@ -1,0 +1,27 @@
+#和上面三个文件比对了好多次没发现什么不同，但是这个文件做集群就是错了 ,弄了好多遍
+#之前有发现初始化加重参数文件错了，当然端口号冲突也不报错,还有多加了分好;有时间看下这个和sureapplication.yml有啥区别
+#有些参数确实不会自动显示出来啊如serviceUrl.defaultzone和spring.security.basic.enabled注意下
+server:
+  port: 7003
+eureka:
+  instance:
+    hostname: stone3
+  client:
+    registerWithEureka: false
+    fetchRegistry: false
+    serviceUrl:
+      defaultzone: http://admin:111111@stone1:7001/eureka/,http://admin:111111@stone2:7002/eureka/
+  server:
+    # 关闭自我保护机制
+    enable-self-preservation: false
+    # 每隔10s扫描服务列表，移除失效服务
+    eviction-interval-timer-in-ms: 60000
+spring:
+  security:
+    basic:
+       enabled: true
+    user:
+      name: admin
+      password: 111111
+  application:
+    name: stone

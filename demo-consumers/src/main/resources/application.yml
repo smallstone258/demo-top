@@ -1,6 +1,44 @@
 server:
-  port: 9003
+  port: 9001
+#  servlet:
+#    context-path: /consumers
 eureka:
   client:
+    healthcheck:
+      enabled: true
     service-url:
-       defaultZone: http://localhost:9001/eureka/
+       defaultZone: http://admin:111111@simple:7004/eureka/
+  instance:
+    # 每隔30s发送一次心跳
+    lease-renewal-interval-in-seconds: 30
+    # 告知服务端30秒还未收到心跳的话，就将该服务移除列表
+    lease-expiration-duration-in-seconds: 90
+spring:
+  application:
+    name: consumers
+#自定义配置负载均衡
+PRO2:   #服务应用名
+  ribbon:
+    NFLoadBalancerRuleClassName: com.netflix.loadbalancer.RandomRule  #自定义算法balancer很容易成balance
+
+#禁用ribbon 就要自己写负载均衡了LoadBanlancerClent不能用了
+#ribbon:
+#  eureka:
+#    enabled: false
+
+#误导:正确不输出日志，报错输出日志 正确:只有报错后，才会一直输出日志
+#报错后不管后面正确调用还是错误调用都一直输出日志
+logging:
+  level:
+    com.small.consumers.Feign.UrlFeign: debug
+    com.small.consumers.Feign.HystrixFeign: debug
+#允许显示所有信息，包括/actuator/health，/actuator/hystrix.stream
+management:
+  endpoints:
+    web:
+      exposure:
+        include: '*'
+#开启feign-hystrix
+feign:
+  hystrix:
+    enabled: true

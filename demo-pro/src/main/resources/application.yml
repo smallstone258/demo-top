@@ -1,12 +1,25 @@
-
-eureka:
-  client:
-    serviceUrl:
-      defaultZone: http://localhost:9001/eureka/
-server:
-  port: 9002
-  servlet:
-    context-path: /pro
+# 应用名，区分服务
 spring:
   application:
     name: pro
+eureka:
+  instance:
+    prefer-ip-address: true
+    hostname: simple
+  client:
+    #健康检查
+    healthcheck:
+      enabled: true
+    serviceUrl:
+        #做了集群的话，注册一个也会同步，多注册容错defaultZone: http://admin:111111@stone1:7001/eureka/,http://admin:111111@stone2:7002/eureka/,http://admin:111111@stone3:7003/eureka/
+       defaultZone: http://admin:111111@simple:7004/eureka/
+    instance:
+      # 每隔30s发送一次心跳
+      lease-renewal-interval-in-seconds: 30
+      # 告知服务端30秒还未收到心跳的话，就将该服务移除列表
+      lease-expiration-duration-in-seconds: 90
+server:
+  port: 8001
+  # 访问上下文路径
+#  servlet:
+#    context-path: /pro

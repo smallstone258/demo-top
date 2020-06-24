@@ -1,0 +1,24 @@
+server:
+  port: 7003
+eureka:
+  instance:
+    hostname: stone3
+  client:
+    registerWithEureka: false
+    fetchRegistry: false
+    serviceUrl:
+      defaultzone: http://admin:111111@stone1:7001/eureka/,http://admin:111111@stone2:7002/eureka/
+  server:
+    # 关闭自我保护机制
+    enable-self-preservation: false
+    # 每隔10s扫描服务列表，移除失效服务
+    eviction-interval-timer-in-ms: 60000
+spring:
+  security:
+    basic:
+       enabled: true
+    user:
+      name: admin
+      password: 111111
+  application:
+    name: stone

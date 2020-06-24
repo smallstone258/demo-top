@@ -1,0 +1,26 @@
+spring:
+  application:
+    name: simple
+  security:
+    user:
+      name: admin
+      password: 111111
+    basic:
+      enabled: true
+#  profiles:
+#    active: simple
+server:
+  port: 7004
+eureka:
+  instance:
+    hostname: simple
+  client:
+    serviceUrl:
+      defaultZone: http://admin:111111@simple:7004/eureka/
+    register-with-eureka: false
+    fetch-registry: false
+  server:
+    #关闭自我保护机制
+    enable-self-preservation: false
+    #每隔10s扫描服务列表，移除失效服务
+    eviction-interval-timer-in-ms: 60000
